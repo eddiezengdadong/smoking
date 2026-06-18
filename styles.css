@@ -1,30 +1,347 @@
-const CACHE_NAME = "quit-smoking-app-v1";
-const FILES = [
-  "./",
-  "./index.html",
-  "./styles.css",
-  "./app.js",
-  "./manifest.webmanifest",
-  "./assets/icon.svg",
-  "./assets/leaf-pattern.svg"
-];
+:root {
+  color-scheme: light;
+  --bg: #f4f7f2;
+  --ink: #17211f;
+  --muted: #687671;
+  --panel: #ffffff;
+  --line: #dfe8e1;
+  --primary: #176b5b;
+  --primary-dark: #0f4e42;
+  --accent: #d27a32;
+  --soft: #e7f2ed;
+  --shadow: 0 18px 42px rgba(23, 33, 31, 0.12);
+}
 
-self.addEventListener("install", (event) => {
-  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(FILES)));
-});
+* {
+  box-sizing: border-box;
+}
 
-self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    caches
-      .keys()
-      .then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))))
-  );
-});
+html {
+  min-height: 100%;
+  background: var(--bg);
+}
 
-self.addEventListener("fetch", (event) => {
-  if (event.request.method !== "GET") {
-    return;
+body {
+  margin: 0;
+  min-height: 100%;
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app-shell {
+  width: min(100%, 520px);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: max(18px, env(safe-area-inset-top)) 16px max(28px, env(safe-area-inset-bottom));
+}
+
+.top-panel {
+  padding: 22px 18px 18px;
+  border-radius: 0 0 8px 8px;
+  color: #fff;
+  background:
+    linear-gradient(135deg, rgba(23, 107, 91, 0.96), rgba(15, 78, 66, 0.98)),
+    url("assets/leaf-pattern.svg");
+  background-size: cover;
+  box-shadow: var(--shadow);
+}
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.app-mark {
+  width: 52px;
+  height: 52px;
+  flex: 0 0 auto;
+}
+
+.eyebrow {
+  margin: 0 0 3px;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 13px;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 0;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+h2 {
+  margin-bottom: 0;
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+.timer-card {
+  margin-top: 24px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.timer-label {
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 14px;
+}
+
+#time-sober {
+  display: block;
+  min-height: 38px;
+  font-size: 31px;
+  line-height: 1.22;
+}
+
+.quick-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.quick-stats article,
+.setup-panel,
+.checkin-panel,
+.urge-panel,
+.milestone-panel {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: 0 8px 24px rgba(23, 33, 31, 0.06);
+}
+
+.quick-stats article {
+  min-height: 82px;
+  padding: 12px 10px;
+}
+
+.quick-stats span {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.quick-stats strong {
+  display: block;
+  overflow-wrap: anywhere;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.setup-panel,
+.checkin-panel,
+.urge-panel,
+.milestone-panel {
+  margin-top: 12px;
+  padding: 16px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+label {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+input {
+  width: 100%;
+  height: 46px;
+  margin-top: 7px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  background: #fbfdfb;
+  outline: none;
+}
+
+input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(23, 107, 91, 0.14);
+}
+
+.two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.primary-button,
+.checkin-button,
+.ghost-button,
+.icon-button {
+  border: 0;
+  border-radius: 8px;
+}
+
+.primary-button {
+  width: 100%;
+  height: 48px;
+  margin-top: 14px;
+  color: #fff;
+  background: var(--primary);
+  font-weight: 700;
+}
+
+.primary-button:active,
+.checkin-button:active {
+  transform: translateY(1px);
+}
+
+.ghost-button,
+.icon-button {
+  min-width: 48px;
+  height: 34px;
+  padding: 0 12px;
+  color: var(--primary);
+  background: var(--soft);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.state-pill {
+  min-width: 62px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  color: var(--muted);
+  background: #eef2ef;
+  font-size: 12px;
+  text-align: center;
+}
+
+.state-pill.done {
+  color: var(--primary-dark);
+  background: var(--soft);
+}
+
+.checkin-button {
+  width: 100%;
+  min-height: 58px;
+  color: #fff;
+  background: var(--accent);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.checkin-button.done {
+  background: var(--primary);
+}
+
+.encouragement {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.urge-card {
+  padding: 14px;
+  border-radius: 8px;
+  background: #fff7ef;
+}
+
+.urge-card strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #7a3f13;
+  font-size: 16px;
+}
+
+.urge-card p {
+  margin-bottom: 0;
+  color: #684c37;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.milestones {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.milestone {
+  min-height: 66px;
+  padding: 9px 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  background: #fafcfb;
+  text-align: center;
+}
+
+.milestone strong,
+.milestone span {
+  display: block;
+}
+
+.milestone strong {
+  margin-bottom: 5px;
+  font-size: 15px;
+}
+
+.milestone span {
+  font-size: 11px;
+}
+
+.milestone.unlocked {
+  border-color: rgba(23, 107, 91, 0.32);
+  color: var(--primary-dark);
+  background: var(--soft);
+}
+
+@media (max-width: 390px) {
+  .app-shell {
+    padding-left: 12px;
+    padding-right: 12px;
   }
 
-  event.respondWith(caches.match(event.request).then((cached) => cached || fetch(event.request)));
-});
+  #time-sober {
+    font-size: 27px;
+  }
+
+  .quick-stats {
+    gap: 8px;
+  }
+
+  .quick-stats article {
+    padding: 10px 8px;
+  }
+
+  .quick-stats strong {
+    font-size: 16px;
+  }
+}

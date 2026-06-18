@@ -1,40 +1,30 @@
-# 清肺计划
+const CACHE_NAME = "quit-smoking-app-v1";
+const FILES = [
+  "./",
+  "./index.html",
+  "./styles.css",
+  "./app.js",
+  "./manifest.webmanifest",
+  "./assets/icon.svg",
+  "./assets/leaf-pattern.svg"
+];
 
-这是一个给 iPhone 使用的戒烟记录小应用第一版。它目前是网页 App，可以添加到 iPhone 主屏幕使用。
+self.addEventListener("install", (event) => {
+  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(FILES)));
+});
 
-## 已有功能
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches
+      .keys()
+      .then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))))
+  );
+});
 
-- 记录戒烟开始时间
-- 显示已坚持多久
-- 根据以前每天抽烟数量和每包价格，计算省下的钱
-- 计算少抽了多少根烟
-- 每日打卡
-- 想抽烟时给一个应急建议
-- 1 天、3 天、7 天、30 天、100 天成就
-- 数据保存在本机浏览器里，不需要账号
+self.addEventListener("fetch", (event) => {
+  if (event.request.method !== "GET") {
+    return;
+  }
 
-## 文件
-
-- `index.html`：应用页面
-- `styles.css`：页面样式
-- `app.js`：功能逻辑
-- `manifest.webmanifest`：手机主屏幕配置
-- `service-worker.js`：离线缓存配置
-- `assets/`：图标和背景图
-
-## 在 iPhone 上使用
-
-要像 App 一样添加到 iPhone 主屏幕，需要把这个文件夹发布成一个 HTTPS 网页。最简单的方式通常是 GitHub Pages、Netlify 或 Vercel。
-
-发布后，用 iPhone Safari 打开网址，点分享按钮，选择“添加到主屏幕”。
-
-## 下一步建议
-
-第一版适合自己用。后面可以继续加：
-
-- 每日提醒
-- 破戒记录和原因分析
-- 戒烟日记
-- 健康恢复时间线
-- iCloud 或账号同步
-- 真正的 iOS 原生版本
+  event.respondWith(caches.match(event.request).then((cached) => cached || fetch(event.request)));
+});

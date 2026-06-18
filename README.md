@@ -1,64 +1,40 @@
-# 发布到 GitHub Pages
+# 清肺计划
 
-这份说明是给第一次发布用的。你只需要有一个 GitHub 账号。
+这是一个给 iPhone 使用的戒烟记录小应用第一版。它目前是网页 App，可以添加到 iPhone 主屏幕使用。
 
-## 第一次发布
+## 已有功能
 
-1. 打开 GitHub 新建仓库页面：
-   https://github.com/new
+- 记录戒烟开始时间
+- 显示已坚持多久
+- 根据以前每天抽烟数量和每包价格，计算省下的钱
+- 计算少抽了多少根烟
+- 每日打卡
+- 想抽烟时给一个应急建议
+- 1 天、3 天、7 天、30 天、100 天成就
+- 数据保存在本机浏览器里，不需要账号
 
-2. 仓库名建议填：
-   `qingfei-plan`
+## 文件
 
-3. 选择 `Public`。
+- `index.html`：应用页面
+- `styles.css`：页面样式
+- `app.js`：功能逻辑
+- `manifest.webmanifest`：手机主屏幕配置
+- `service-worker.js`：离线缓存配置
+- `assets/`：图标和背景图
 
-4. 不要勾选 `Add a README file`，直接创建仓库。
+## 在 iPhone 上使用
 
-5. 进入新仓库后，点击 `uploading an existing file` 或 `Add file` -> `Upload files`。
+要像 App 一样添加到 iPhone 主屏幕，需要把这个文件夹发布成一个 HTTPS 网页。最简单的方式通常是 GitHub Pages、Netlify 或 Vercel。
 
-6. 上传这些文件和文件夹：
-   - `index.html`
-   - `styles.css`
-   - `app.js`
-   - `manifest.webmanifest`
-   - `service-worker.js`
-   - `README.md`
-   - `assets` 文件夹
+发布后，用 iPhone Safari 打开网址，点分享按钮，选择“添加到主屏幕”。
 
-7. 点击页面底部的 `Commit changes`。
+## 下一步建议
 
-8. 打开仓库的 `Settings` -> `Pages`。
+第一版适合自己用。后面可以继续加：
 
-9. 在 `Build and deployment` 里选择：
-   - Source: `Deploy from a branch`
-   - Branch: `main`
-   - Folder: `/root`
-
-10. 点击 `Save`。
-
-几分钟后，GitHub 会给你一个网址，通常长这样：
-
-`https://你的用户名.github.io/qingfei-plan/`
-
-用 iPhone Safari 打开这个网址，点分享按钮，选择“添加到主屏幕”。
-
-## 以后完善功能怎么操作
-
-你以后可以这样做：
-
-1. 在这个文件夹里告诉 Codex 想加什么功能。
-2. Codex 修改本地文件。
-3. 你打开 GitHub 仓库页面。
-4. 进入对应文件，点击编辑按钮。
-5. 把新内容更新进去，点击 `Commit changes`。
-
-如果后面安装了 Git 或 GitHub Desktop，就可以变得更简单：Codex 改完以后，直接同步到 GitHub，不需要你一个文件一个文件复制。
-
-## 建议下一批功能
-
-- 每天固定时间提醒
-- 破戒记录
-- 戒烟原因清单
-- 健康恢复时间线
+- 每日提醒
+- 破戒记录和原因分析
 - 戒烟日记
-- 数据导出和备份
+- 健康恢复时间线
+- iCloud 或账号同步
+- 真正的 iOS 原生版本
