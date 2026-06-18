@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#176b5b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="清肺计划">
+    <title>清肺计划</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="top-panel" aria-labelledby="app-title">
+        <div class="brand-row">
+          <img class="app-mark" src="assets/icon.svg" alt="">
+          <div>
+            <p class="eyebrow">你的戒烟记录</p>
+            <h1 id="app-title">清肺计划</h1>
+          </div>
+        </div>
+        <div class="timer-card" aria-live="polite">
+          <span class="timer-label">已坚持</span>
+          <strong id="time-sober">0 天 0 小时 0 分钟</strong>
+        </div>
+      </section>
+
+      <section class="quick-stats" aria-label="戒烟成果">
+        <article>
+          <span>省下的钱</span>
+          <strong id="money-saved">¥0.00</strong>
+        </article>
+        <article>
+          <span>少抽香烟</span>
+          <strong id="cigs-avoided">0 根</strong>
+        </article>
+        <article>
+          <span>连续打卡</span>
+          <strong id="streak-days">0 天</strong>
+        </article>
+      </section>
+
+      <section class="setup-panel" aria-labelledby="settings-title">
+        <div class="section-heading">
+          <h2 id="settings-title">基础设置</h2>
+          <button id="reset-demo" class="ghost-button" type="button">重置</button>
+        </div>
+        <label>
+          戒烟开始时间
+          <input id="start-time" type="datetime-local">
+        </label>
+        <div class="two-columns">
+          <label>
+            以前每天抽几根
+            <input id="daily-count" type="number" min="0" step="1" inputmode="numeric" value="20">
+          </label>
+          <label>
+            每包多少钱
+            <input id="pack-price" type="number" min="0" step="0.5" inputmode="decimal" value="25">
+          </label>
+        </div>
+        <button id="save-settings" class="primary-button" type="button">保存设置</button>
+      </section>
+
+      <section class="checkin-panel" aria-labelledby="checkin-title">
+        <div class="section-heading">
+          <h2 id="checkin-title">今日打卡</h2>
+          <span id="checkin-state" class="state-pill">未打卡</span>
+        </div>
+        <button id="checkin-button" class="checkin-button" type="button">
+          今天没有抽烟
+        </button>
+        <p id="encouragement" class="encouragement">先把今天过好，就是很认真地赢了一次。</p>
+      </section>
+
+      <section class="urge-panel" aria-labelledby="urge-title">
+        <div class="section-heading">
+          <h2 id="urge-title">想抽烟时</h2>
+          <button id="new-tip" class="icon-button" type="button" aria-label="换一个建议">换</button>
+        </div>
+        <div class="urge-card">
+          <strong id="urge-tip-title">先撑过 3 分钟</strong>
+          <p id="urge-tip-body">站起来喝一杯水，把注意力放到喉咙和呼吸上。烟瘾通常会像浪一样过去。</p>
+        </div>
+      </section>
+
+      <section class="milestone-panel" aria-labelledby="milestone-title">
+        <h2 id="milestone-title">小成就</h2>
+        <div class="milestones" id="milestones"></div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
